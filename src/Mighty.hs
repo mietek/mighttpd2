@@ -46,12 +46,12 @@ main = do
           let opt | root      = (defaultOption svrnm) { opt_port = 80 }
                   | otherwise = defaultOption svrnm
           env <- getEnvironment
-          let port = maybe (opt_port opt) read $ looup "PORT" env
+          let port = maybe (opt_port opt) read $ lookup "PORT" env
               opt' = opt { opt_port = port }
           dir <- getCurrentDirectory
           let dst = fromString . addTrailingPathSeparator $ dir
               route = [Block ["*"] [RouteFile "/" dst]]
-          return (opt, route)
+          return (opt', route)
       | n == 2 = do
           let config_file = args !! 0
           routing_file <- getAbsoluteFile (args !! 1)

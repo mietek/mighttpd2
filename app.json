@@ -1,0 +1,8 @@
+{
+  "name": "mighttpd2",
+  "description": "Haskell web server",
+  "repository": "https://github.com/kazu-yamamoto/mighttpd2",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/mietek/haskell-on-heroku"
+  }
+}
