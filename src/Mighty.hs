@@ -8,7 +8,7 @@ import Control.Monad (when)
 import Data.Version (showVersion)
 import Network.Wai.Application.Classic hiding ((</>), (+++))
 import System.Directory (getCurrentDirectory)
-import System.Environment (getArgs)
+import System.Environment (getArgs, getEnvironment)
 import System.Exit (exitFailure)
 import System.FilePath (addTrailingPathSeparator, isAbsolute, normalise, (</>))
 import System.IO
@@ -45,6 +45,9 @@ main = do
           root <- amIrootUser
           let opt | root      = (defaultOption svrnm) { opt_port = 80 }
                   | otherwise = defaultOption svrnm
+          env <- getEnvironment
+          let port = maybe (opt_port opt) read $ looup "PORT" env
+              opt' = opt { opt_port = port }
           dir <- getCurrentDirectory
           let dst = fromString . addTrailingPathSeparator $ dir
               route = [Block ["*"] [RouteFile "/" dst]]
